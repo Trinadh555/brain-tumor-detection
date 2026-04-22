@@ -1,6 +1,5 @@
 streamlit
 pillow
 numpy
-tensorflow==2.13.0
-reportlab
+tensorflow==2.18.0
 opencv-python-headless
