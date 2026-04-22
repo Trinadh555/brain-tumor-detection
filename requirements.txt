@@ -3,3 +3,4 @@ pillow
 numpy
 tensorflow==2.18.0
 opencv-python-headless
+reportlab
