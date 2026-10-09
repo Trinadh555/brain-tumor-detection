@@ -2,7 +2,7 @@
 
 This project is an advanced AI-powered medical web application that classifies brain MRI scans (Glioma, Meningioma, Pituitary, and No Tumor) using Deep Learning (MobileNetV2 Transfer Learning), analyzes tumor severity using OpenCV, and provides personalized medical, dietary, and lifestyle guidance based on the patient's age and gender.
 
-## 📊 Dataset Overview
+##  Dataset Overview
 The dataset is balanced and structured into Training and Testing directories:
 - **Total Dataset Size:** 7,200 MRI Images across 4 classes
 - **Training Set:** 5,600 images (1,400 per class)
@@ -16,7 +16,7 @@ The dataset is balanced and structured into Training and Testing directories:
 | **Pituitary** | 1,400 | 400 | 1,800 |
 | **Total** | **5,600** | **1,600** | **7,200** |
 
-## 🚀 Model Performance & Results
+##  Model Performance & Results
 - **Architecture:** MobileNetV2 (Transfer Learning)
 - **Test Accuracy:** **90.13%** (Loss: 0.3896)
 - **Peak Validation Accuracy:** ~93.69%
@@ -29,13 +29,13 @@ The dataset is balanced and structured into Training and Testing directories:
 | **No Tumor** | 0.879 | 0.995 | 0.933 |
 | **Pituitary** | 0.956 | 0.968 | 0.961 |
 
-## ✨ Key Features
+##  Key Features
 - **Tumor Classification:** Accurately detects and classifies brain tumors from MRI scans.
 - **Severity Analysis:** Computes tumor region percentage using OpenCV thresholding and categorizes severity (Low, Moderate, High).
 - **Personalized Recommendations:** Generates tailored doctor advice, dietary tips, and lifestyle guidance customized for different age groups (Child, Teen, Adult, Middle-age, Senior) and gender.
 - **Interactive Web App:** Built using Streamlit for a smooth graphical interface.
 
-## 📂 Project Structure
+##  Project Structure
 
 brain-tumor-detection/
 ├── app.py                         # Streamlit web application
@@ -50,7 +50,7 @@ brain-tumor-detection/
 ├── packages.txt                   # System dependencies for deployment
 └── README.md                      # Project documentation
 
-## 🛠️ Installation & Local Running
+##  Installation & Local Running
 1. Clone the repository:
    ```bash
    git clone [https://github.com/Trinadh555/brain-tumor-detection.git](https://github.com/Trinadh555/brain-tumor-detection.git)
