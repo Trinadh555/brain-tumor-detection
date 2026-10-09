@@ -36,3 +36,41 @@ The dataset is balanced and structured into Training and Testing directories:
 - **Interactive Web App:** Built using Streamlit for a smooth graphical interface.
 
 ## 📂 Project Structure
+
+brain-tumor-detection/
+├── app.py                         # Streamlit web application
+├── predict.py                     # Prediction & guidance logic
+├── brain_tumor_type_model.keras   # Trained deep learning model file
+├── class_names.json               # Class labels configuration
+├── training_curves.png            # Model training accuracy & loss curves
+├── confusion_matrix.png           # Evaluation confusion matrix
+├── Training/                      # Training dataset directory
+├── Testing/                       # Testing dataset directory
+├── requirements.txt               # Python dependencies
+├── packages.txt                   # System dependencies for deployment
+└── README.md                      # Project documentation
+
+## 🛠️ Installation & Local Running
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/Trinadh555/brain-tumor-detection.git](https://github.com/Trinadh555/brain-tumor-detection.git)
+   cd brain-tumor-detection
+   
+## Install required packages:
+         pip install -r requirements.txt
+## Run the Streamlit application:
+         streamlit run app.py
+
+## Live Demo
+Access the live application hosted on Streamlit Cloud: View App
+
+## Author
+Mummana Trinadh
+
+## Disclaimer
+This project is intended for educational, research, and demonstration purposes only. It is not a certified medical device and should not replace professional medical diagnosis or clinical advice.         
+
+
+
+   
+
