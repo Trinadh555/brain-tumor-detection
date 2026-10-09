@@ -1,12 +1,26 @@
-import numpy as np
+import json
+import os
 import cv2
+import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
 
-model = load_model("brain_tumor_type_model.h5", compile=False)
+# =====================
+# Configuration & Model Loading
+# =====================
+MODEL_PATH = "brain_tumor_model.keras"
 
-classes = ['glioma', 'meningioma', 'notumor', 'pituitary']
+# Automatically load class names and image size from training output
+if os.path.exists("class_names.json"):
+    with open("class_names.json") as f:
+        cfg = json.load(f)
+    classes = cfg["class_names"]
+    img_size = cfg["img_size"]
+else:
+    classes = ["glioma", "meningioma", "notumor", "pituitary"]
+    img_size = 160  # Default MobileNetV2 size
+
+model = load_model(MODEL_PATH, compile=False)
 
 
 def get_age_group(age):
@@ -75,8 +89,8 @@ def get_personalized_guidance(tumor_type, age=None, gender=None):
 
 
 def predict_tumor(img_path, age=None, gender=None):
-    # Load and preprocess image
-    img = image.load_img(img_path, target_size=(64, 64))
+    # Load and preprocess image matching MobileNetV2 target size
+    img = image.load_img(img_path, target_size=(img_size, img_size))
     img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
@@ -94,23 +108,21 @@ def predict_tumor(img_path, age=None, gender=None):
     tumor_percentage = 0.0
     severity = "None"
 
-    if tumor_detected:
+    if tumor_detected and os.path.isfile(img_path):
         img_cv = cv2.imread(img_path, 0)
-        img_cv = cv2.resize(img_cv, (256, 256))
+        if img_cv is not None:
+            img_cv = cv2.resize(img_cv, (256, 256))
+            _, thresh = cv2.threshold(img_cv, 150, 255, cv2.THRESH_BINARY)
+            tumor_pixels = np.sum(thresh == 255)
+            total_pixels = thresh.size
+            tumor_percentage = (tumor_pixels / total_pixels) * 100
 
-        _, thresh = cv2.threshold(img_cv, 150, 255, cv2.THRESH_BINARY)
-
-        tumor_pixels = np.sum(thresh == 255)
-        total_pixels = thresh.size
-
-        tumor_percentage = (tumor_pixels / total_pixels) * 100
-
-        if tumor_percentage <= 30:
-            severity = "Low"
-        elif tumor_percentage <= 70:
-            severity = "Moderate"
-        else:
-            severity = "High"
+            if tumor_percentage <= 30:
+                severity = "Low"
+            elif tumor_percentage <= 70:
+                severity = "Moderate"
+            else:
+                severity = "High"
 
     doctor, food, lifestyle, age_note, gender_note = get_personalized_guidance(
         tumor_type, age=age, gender=gender
@@ -129,3 +141,13 @@ def predict_tumor(img_path, age=None, gender=None):
         "age_note": age_note,
         "gender_note": gender_note,
     }
+
+
+# Example usage test
+if __name__ == "__main__":
+    test_img = "Testing/meningioma/Te-aug-me_2.jpg"
+    if os.path.exists(test_img):
+        result = predict_tumor(test_img, age=45, gender="female")
+        print(json.dumps(result, indent=2))
+    else:
+        print("Please provide a valid image path for testing.")

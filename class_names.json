@@ -1,0 +1,9 @@
+{
+  "class_names": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "pituitary"
+  ],
+  "img_size": 160
+}
