@@ -8,17 +8,18 @@ from tensorflow.keras.preprocessing import image
 # =====================
 # Configuration & Model Loading
 # =====================
-MODEL_PATH = "brain_tumor_model.keras"
+MODEL_PATH = "brain_tumor_type_model.keras"
 
-# Automatically load class names and image size from training output
+# Automatically load class names and image size (defaulting to 64x64 for this model)
 if os.path.exists("class_names.json"):
     with open("class_names.json") as f:
         cfg = json.load(f)
-    classes = cfg["class_names"]
-    img_size = cfg["img_size"]
+    classes = cfg.get("class_names", ["glioma", "meningioma", "notumor", "pituitary"])
+    # Ensure image size matches the 64x64 shape expected by brain_tumor_type_model.keras
+    img_size = 64  
 else:
     classes = ["glioma", "meningioma", "notumor", "pituitary"]
-    img_size = 160  # Default MobileNetV2 size
+    img_size = 64
 
 model = load_model(MODEL_PATH, compile=False)
 
@@ -89,7 +90,7 @@ def get_personalized_guidance(tumor_type, age=None, gender=None):
 
 
 def predict_tumor(img_path, age=None, gender=None):
-    # Load and preprocess image matching MobileNetV2 target size
+    # Load and preprocess image matching the model's required target size (64x64)
     img = image.load_img(img_path, target_size=(img_size, img_size))
     img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
